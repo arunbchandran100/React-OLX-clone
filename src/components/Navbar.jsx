@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import olxLogo from "../assets/olx-logo.png";
 import lens from "../assets/lens.png";
 import arrow from "../assets/arrow.png";
-import { Menu, X } from "lucide-react"; // Import icons for toggle menu
+import { Menu, X } from "lucide-react"; // Icons for toggle menu
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-[#EFF1F3] border-b border-gray-200">
+    <nav className="flex items-center justify-between p-4 bg-[#EFF1F3] border-b border-gray-200 relative">
       {/* Left Section: Logo */}
       <div className="flex items-center">
         <img src={olxLogo} alt="OLX Logo" className="w-10 h-auto" />
@@ -26,13 +26,13 @@ const Navbar = () => {
 
       {/* Desktop & Tablet: Additional Items */}
       <div className="hidden sm:flex items-center space-x-4">
-        {/* Location Dropdown (Hidden in Mobile) */}
+        {/* Location Dropdown */}
         <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 hidden md:flex">
           <span className="text-gray-700 text-sm font-medium">India</span>
           <img src={arrow} alt="Arrow" className="w-4 h-4 ml-1" />
         </div>
 
-        {/* Login Link (Always visible except mobile) */}
+        {/* Login Link */}
         <a
           href="#"
           className="text-gray-700 text-sm font-medium underline hidden md:block"
@@ -41,7 +41,7 @@ const Navbar = () => {
         </a>
 
         {/* Sell Button (Hidden in Mobile & Tablet) */}
-        <button className=" lg:flex items-center bg-blue-200 text-blue-900 font-bold text-sm px-3 py-2 rounded-full border-2 border-cyan-400 hover:bg-yellow-500">
+        <button className="hidden lg:flex items-center bg-blue-200 text-blue-900 font-bold text-sm px-3 py-2 rounded-full border-2 border-cyan-400 hover:bg-yellow-500">
           <span className="mr-1 text-lg">+</span>
           <span>SELL</span>
         </button>
@@ -59,9 +59,9 @@ const Navbar = () => {
         )}
       </button>
 
-      {/* Mobile Menu Content */}
+      {/* Mobile Menu Content (Above Everything) */}
       {menuOpen && (
-        <div className="absolute top-16 right-4 bg-white shadow-lg rounded-md p-4 w-40 flex flex-col items-center space-y-3 sm:hidden">
+        <div className="absolute top-16 right-4 bg-white shadow-lg rounded-md p-4 w-40 flex flex-col items-center space-y-3 sm:hidden z-50">
           <a href="#" className="text-gray-700 text-sm font-medium underline">
             Login
           </a>
