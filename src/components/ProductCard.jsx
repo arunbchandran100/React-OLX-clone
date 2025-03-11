@@ -16,7 +16,7 @@ const ProductCard = () => {
             <div className="mt-3">
                 <div className="text-lg font-bold text-gray-800">iPhone 15</div>
                 <div className="text-m font-semibold text-gray-600">$ 10000</div>
-
+                
                 <div className="flex justify-between items-center mt-2">
                     <div className="text-s text-gray-500">Mobile</div>
                 </div>
