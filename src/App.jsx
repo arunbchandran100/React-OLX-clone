@@ -12,7 +12,7 @@ function App() {
   const [SearchValue, SetSearchValue] = useState('');
 
   return (
-    <AuthProvider>  {/* ✅ Wrapping the entire app */}
+    <AuthProvider>  
       <SearchContext.Provider value={{ SearchValue, SetSearchValue }}>
         <Routes>
           <Route path="/" element={<Home />} />
