@@ -2,7 +2,7 @@ import guitar from "../assets/guitar.png";
 import google from "../assets/google.png";
 import phone from "../assets/phone.png";
 
-const Login = () => {
+const Login = ({ setOpenLogin }) => {
   return (
     <>
       <div
@@ -20,8 +20,8 @@ const Login = () => {
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:w-96 sm:max-w-lg">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h1
-                  className="cursor-pointer font-semibold text-3xl"
+                <h1 onClick={() => setOpenLogin(false)}
+                  className="cursor-pointer font-semibold text-3xl absolute top-4 right-8 "
                 >
                   X
                 </h1>
