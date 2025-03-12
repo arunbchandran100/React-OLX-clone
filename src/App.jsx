@@ -1,25 +1,31 @@
-import React, { createContext, useState } from 'react';
-import './App.css';
-import Home from './pages/Home';
-import { Routes, Route } from 'react-router-dom';
-import ViewProduct from './pages/ViewProduct';
-import AddProducts from './pages/AddPoducts';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import ViewProduct from "./pages/ViewProduct"; 
+import AddProducts from "./pages/AddProducts";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
-export const SearchContext = createContext();
 
 function App() {
-  const [SearchValue, SetSearchValue] = useState('');
 
   return (
     <AuthProvider>  
-      <SearchContext.Provider value={{ SearchValue, SetSearchValue }}>
+      <ToastContainer theme='dark' /> 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path='/product' element={<ViewProduct />} />
-          <Route path='/addProduct' element={<AddProducts />} />
+          <Route path="/product/:id" element={<ViewProduct />} /> 
+          <Route
+            path="/addProduct"
+            element={
+              <ProtectedRoute>
+                <AddProducts />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-      </SearchContext.Provider>
     </AuthProvider>
   );
 }

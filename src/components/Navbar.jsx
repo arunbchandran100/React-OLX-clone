@@ -1,17 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import olxLogo from "../assets/olx-logo.png";
 import lens from "../assets/lens.png";
 import arrow from "../assets/arrow.png";
 import { Menu, X } from "lucide-react";
 import Login from "./Login";
-import { SearchContext } from "../App";
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [openLogin, setOpenLogin] = useState(false);
-    const { setSearchValue } = useContext(SearchContext);
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleSellClick = () => {
+        if (!user) {
+            toast.error('Please login to sell a product');
+        } else {
+            navigate('/addproduct');
+        }
+    };
+
+    const handleLogoClick = () => {
+        navigate('/');
+    };
 
     return (
         <>
@@ -25,13 +40,12 @@ const Navbar = () => {
             <nav className="flex items-center justify-between p-4 bg-[#EFF1F3] border-b border-gray-200 relative">
                 {/* Logo */}
                 <div className="flex items-center">
-                    <img src={olxLogo} alt="OLX Logo" className="w-10 h-auto" />
+                    <img onClick={handleLogoClick} src={olxLogo} alt="OLX Logo" className="w-10 h-auto" />
                 </div>
 
                 {/* Search Bar */}
                 <div className="flex-grow flex items-center border border-gray-300 rounded-md mx-3 sm:mx-5">
                     <input
-                        onChange={(e) => setSearchValue(e.target.value)}
                         type="text"
                         placeholder="Search 'Properties'"
                         className="w-full px-3 py-2 text-sm text-gray-700 focus:outline-none rounded-md"
@@ -63,7 +77,7 @@ const Navbar = () => {
                     ) : (
                         <h1
                             className="text-sm font-medium text-teal-600 hover:text-teal-800 underline hover:no-underline cursor-pointer transition-colors duration-200"
-                            onClick={() => setOpenLogin(true)} 
+                            onClick={() => setOpenLogin(true)}
                         >
                             Login
                         </h1>
@@ -73,7 +87,7 @@ const Navbar = () => {
                     {/* Sell Button */}
                     <button className="hidden lg:flex items-center bg-blue-200 text-blue-900 font-bold text-sm px-3 py-2 rounded-full border-2 border-cyan-400 hover:bg-yellow-500">
                         <span className="mr-1 text-lg">+</span>
-                        <span>SELL</span>
+                        <span onClick={handleSellClick}>SELL</span>
                     </button>
                 </div>
 
@@ -115,7 +129,7 @@ const Navbar = () => {
 
                         <button className="bg-blue-200 text-blue-900 font-bold text-sm px-3 py-2 rounded-full border-2 border-cyan-400 hover:bg-yellow-500">
                             <span className="mr-1 text-lg">+</span>
-                            <span>SELL</span>
+                            <span onClick={handleSellClick}>SELL</span>
                         </button>
                     </div>
                 )}

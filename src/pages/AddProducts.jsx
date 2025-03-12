@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom"; // ✅ For navigation & editing
+import { useNavigate, useParams } from "react-router-dom"; 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { db } from "../firebase";
-import { collection, addDoc, doc, updateDoc, getDoc } from "firebase/firestore"; // ✅ Firestore functions
-import { useAuth } from "../context/AuthContext"; // ✅ Import AuthContext
+import { collection, addDoc, doc, updateDoc, getDoc } from "firebase/firestore"; 
+import { useAuth } from "../context/AuthContext";
+import { toast } from 'react-toastify';
 
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dxbn6tmy7/image/upload";
-const UPLOAD_PRESET = "olx-clone"; // ✅ Replace with your Cloudinary upload preset
+const UPLOAD_PRESET = "olx-clone";
 
 const AddProducts = () => {
-  const { id } = useParams(); // ✅ Get product ID (for edit mode)
+  const { id } = useParams(); 
   const navigate = useNavigate();
-  const { user: currentUser } = useAuth(); // ✅ Get the logged-in user
+  const { user: currentUser } = useAuth();
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(""); // ✅ Store uploaded image URL
+  const [imageUrl, setImageUrl] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -43,21 +44,21 @@ const AddProducts = () => {
         setDescription(product.description);
         setImageUrl(product.imageUrl);
       } else {
-        alert("Product not found!");
+        toast.error("Product not found!");
         navigate("/");
       }
     } catch (error) {
       console.error("Error fetching product:", error);
-      alert("Failed to load product details.");
+      toast.error("Failed to load product details.");
     }
   };
 
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]); // ✅ Capture selected file
+    setImage(e.target.files[0]);  
   };
 
   const uploadImageToCloudinary = async () => {
-    if (!image) return imageUrl; // ✅ If no new image is selected, keep existing
+    if (!image) return imageUrl; 
 
     const formData = new FormData();
     formData.append("file", image);
@@ -73,14 +74,14 @@ const AddProducts = () => {
 
       const data = await response.json();
       if (!data.secure_url) {
-        alert("Image upload failed. Please try again.");
+        toast.error("Image upload failed. Please try again.");
         return null;
       }
 
       return data.secure_url;
     } catch (error) {
       console.error("Cloudinary upload error:", error);
-      alert("Failed to upload image.");
+      toast.error("Failed to upload image.");
       return null;
     }
   };
@@ -90,7 +91,7 @@ const AddProducts = () => {
     setLoading(true);
 
     if (!currentUser) {
-      alert("You must be logged in to add a product.");
+      toast.error("You must be logged in to add a product.");
       setLoading(false);
       return;
     }
@@ -116,16 +117,16 @@ const AddProducts = () => {
       if (isEditing) {
         const productRef = doc(db, "products", id);
         await updateDoc(productRef, productData);
-        alert("Product updated successfully!");
+        toast.success("Product updated successfully!");
       } else {
         await addDoc(collection(db, "products"), productData);
-        alert("Product added successfully!");
+        toast.success("Product added successfully!");
       }
 
       navigate("/");
     } catch (error) {
       console.error("Error saving product:", error);
-      alert("Failed to save product. Please try again.");
+      toast.error("Failed to save product. Please try again.");
     } finally {
       setLoading(false);
     }
